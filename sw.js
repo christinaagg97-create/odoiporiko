@@ -1,5 +1,5 @@
 /* Offline support: the app files are fetched fresh when online, with the cache as a fallback. Fonts are cached first. */
-const CACHE = 'worldtravel-v2';
+const CACHE = 'worldtravel-v3';
 const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', e => {
