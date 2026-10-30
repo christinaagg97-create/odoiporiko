@@ -1,5 +1,5 @@
-/* Offline support: the app shell is cached, and refreshed in the background on every visit. */
-const CACHE = 'odoiporiko-v1';
+/* Offline support: the app files are fetched fresh when online, with the cache as a fallback. Fonts are cached first. */
+const CACHE = 'worldtravel-v2';
 const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -13,9 +13,11 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   const ok = url.origin === location.origin || url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com';
   if (!ok) return;
+  const fonts = url.origin !== location.origin;
   e.respondWith(caches.open(CACHE).then(async c => {
     const hit = await c.match(req, {ignoreSearch:true});
-    const net = fetch(req).then(r => { if (r && (r.ok || r.type === 'opaque')) c.put(req, r.clone()); return r; }).catch(() => null);
-    return hit || (await net) || (req.mode === 'navigate' ? c.match('index.html') : Response.error());
+    if (fonts && hit) return hit;
+    try { const r = await fetch(req); if (r && (r.ok || r.type === 'opaque')) c.put(req, r.clone()); return r; }
+    catch(_) { return hit || (req.mode === 'navigate' ? c.match('index.html') : Response.error()); }
   }));
 });

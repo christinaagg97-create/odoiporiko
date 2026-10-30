@@ -74,7 +74,7 @@ section{scroll-margin-top:84px}
 .links button:hover{background:var(--sec-cream);color:var(--ink)}
 .nav .cta{background:var(--coral);color:var(--coral-ink);border:0;border-radius:999px;padding:0 20px;height:44px;font-weight:700;font-size:15px;white-space:nowrap}
 /* hero */
-.hero{position:relative;min-height:min(86vh,760px);display:flex;align-items:flex-end;color:#fff;overflow:hidden;background:#17263F}
+.hero{position:relative;min-height:min(94svh,860px);display:flex;align-items:flex-end;color:#fff;overflow:hidden;background:#17263F}
 .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center}
 .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,14,30,.55),rgba(8,14,30,0) 70%),linear-gradient(0deg,rgba(0,0,0,.25),rgba(0,0,0,0) 45%)}
 .hero svg.hills{position:absolute;inset:0;width:100%;height:100%}
@@ -361,3 +361,8 @@ textarea{resize:vertical;min-height:70px}
   .stage,.track,.route,.av,.tk.pl .plane,.flipper,.pill,.arch .shape,.tcard,.jc,.board{animation:none!important;transition:none!important}
 }
 [hidden]{display:none!important}
+
+.sway{transform-box:fill-box;transform-origin:50% 100%;animation:swayg 7s ease-in-out infinite alternate}
+.sway.s2{animation-duration:5.5s;animation-delay:-2s}
+@keyframes swayg{from{transform:skewX(-1.6deg)}to{transform:skewX(1.6deg)}}
+@media (prefers-reduced-motion:reduce){.sway{animation:none}}

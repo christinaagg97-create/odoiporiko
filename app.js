@@ -236,9 +236,9 @@ function renderHero(){
   const v = visited(), c = new Set(v.map(x => x.country)).size, s = spots().length;
   $('#heroLead').textContent = v.length ? `${v.length} ${v.length === 1 ? 'ταξίδι' : 'ταξίδια'}, ${c} ${c === 1 ? 'χώρα' : 'χώρες'} και ${s} ${s === 1 ? 'εμπειρία' : 'εμπειρίες'} που εμπιστεύομαι, όλα σε ένα μέρος.` : 'Κατέγραψε τα μέρη που έχεις επισκεφτεί και όσα έζησες σε καθένα.';
   $('#exChip').hidden = !items.some(i => i.example);
-  const last = [...v].reverse().find(t => t.photo);
-  const bg = $('#heroBg'); bg.style.backgroundImage = last ? `url('${last.photo}')` : 'none';
-  $('#hills').style.display = last ? 'none' : '';
+  const last = [...v].reverse().find(t => t.photo), hp = (items.find(i => i.id === 'hero') || {}).photo, pic = hp || (last && last.photo);
+  const bg = $('#heroBg'); bg.style.backgroundImage = pic ? `url('${pic}')` : 'none';
+  $('#hills').style.display = pic ? 'none' : '';
 }
 function renderSign(){
   const B = [
@@ -341,7 +341,7 @@ function renderMemory(){
     <div class="mem-r"><div>${stars(item ? item.rating : avgRating(t))}</div><p>${esc((item && item.note) || t.note || 'Μια στιγμή που αξίζει να θυμάσαι.')}</p>
       <div class="who">${esc(item ? item.name : t.city)}</div><div class="sub" style="color:#6B6558">${esc(t.city)}, ${esc(t.country)}${item && item.date ? ' · ' + esc(fmtD(item.date)) : ''}</div>
       <div class="tools"><button class="btn" type="button" data-act="memNext">Άλλη ανάμνηση</button><button class="btn" type="button" data-act="${item ? 'openSpot' : 'openTrip'}" data-id="${esc(item ? item.id : t.id)}">Άνοιξέ την</button></div>
-      <svg class="stampc" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="${sid}" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"/></defs><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="1.2"/><text><textPath href="#${sid}">ΟΔΟΙΠΟΡΙΚΟ · ΟΔΟΙΠΟΡΙΚΟ · </textPath></text><path d="M38 52 L62 40 L54 62 L50 54Z" fill="currentColor"/></svg></div>`;
+      <svg class="stampc" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="${sid}" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"/></defs><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="1.2"/><text><textPath href="#${sid}">WORLD TRAVEL · WORLD TRAVEL · </textPath></text><path d="M38 52 L62 40 L54 62 L50 54Z" fill="currentColor"/></svg></div>`;
 }
 function renderJournal(){
   const all = spots(), cats = [...new Set(all.map(s => s.cat))];
@@ -548,8 +548,8 @@ const A = {
   settings: () => settingsForm(),
   importPick: () => $('#impFile').click(),
   export: async () => {
-    const data = JSON.stringify(items.filter(i => i.kind !== 'meta'), null, 2), name = 'odoiporiko-' + TODAY + '.json';
-    try { const f = new File([data], name, {type:'application/json'}); if (navigator.canShare && navigator.canShare({files:[f]})) { await navigator.share({files:[f], title:'Οδοιπορικό'}); toast('Το αντίγραφο ετοιμάστηκε'); return; } } catch(e){ if (e && e.name === 'AbortError') return; }
+    const data = JSON.stringify(items.filter(i => i.kind !== 'meta' || i.id === 'hero'), null, 2), name = 'odoiporiko-' + TODAY + '.json';
+    try { const f = new File([data], name, {type:'application/json'}); if (navigator.canShare && navigator.canShare({files:[f]})) { await navigator.share({files:[f], title:'World Travel'}); toast('Το αντίγραφο ετοιμάστηκε'); return; } } catch(e){ if (e && e.name === 'AbortError') return; }
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([data], {type:'application/json'})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); toast('Το αντίγραφο αποθηκεύτηκε');
   }
 };
@@ -561,16 +561,22 @@ function settingsForm(){
       <p class="hint">Το κλειδί αποθηκεύεται μόνο σε αυτή τη συσκευή και στέλνεται μόνο στο Anthropic. Οι ερωτήσεις χρεώνονται στον δικό σου λογαριασμό.</p>
       <div class="tools"><button class="btn primary" type="submit">Αποθήκευση</button><button class="btn" type="button" data-act="closeOv">Κλείσιμο</button></div>
     </form>
+    <h2 style="font-size:20px;margin-top:10px">Φωτογραφία εξωφύλλου</h2>
+    <p class="hint">Βάλε μια δική σου φωτογραφία στην πρώτη οθόνη, π.χ. από ένα αγαπημένο ταξίδι.</p>
+    <div class="tools"><button class="btn" type="button" id="heroPick">Διάλεξε φωτογραφία</button><button class="btn" type="button" id="heroReset">Αρχική εικόνα</button><input id="heroFile" type="file" accept="image/*" hidden></div>
     <h2 style="font-size:20px;margin-top:10px">Αντίγραφο ασφαλείας</h2>
     <p class="hint">Τα δεδομένα σου υπάρχουν μόνο σε αυτό το κινητό. Αν σβήσεις τα δεδομένα του browser ή την εφαρμογή, χάνονται. Κάνε αντίγραφο κάθε τόσο και κράτα το στο Drive, στο iCloud ή στο email σου.</p>
     <div class="tools"><button class="btn" type="button" data-act="export">Κάνε αντίγραφο</button><button class="btn" type="button" data-act="importPick">Επαναφορά από αντίγραφο</button><input id="impFile" type="file" accept="application/json,.json" hidden></div>`, true, 'form');
   $('#stModel').value = getModel();
+  $('#heroPick').onclick = () => $('#heroFile').click();
+  $('#heroFile').onchange = async e => { const f = e.target.files[0]; if (f) { put({id:'hero', kind:'meta', photo:await shrink(f, 1600)}); toast('Η φωτογραφία εξωφύλλου άλλαξε'); } };
+  $('#heroReset').onclick = () => { del('hero'); renderAll(); toast('Επαναφέρθηκε η αρχική εικόνα'); };
   $('#stf').onsubmit = e => { e.preventDefault(); try { localStorage.setItem(KEY, $('#stKey').value.trim()); localStorage.setItem(MODELKEY, $('#stModel').value); } catch(_){} closeOv(); toast('Οι ρυθμίσεις αποθηκεύτηκαν'); };
   $('#impFile').onchange = async e => {
     const f = e.target.files[0]; if (!f) return;
     try {
       const arr = JSON.parse(await f.text()); if (!Array.isArray(arr)) throw 0;
-      let n = 0; for (const it of arr) { if (it && it.id && (it.kind === 'trip' || it.kind === 'spot')) { const i = items.findIndex(x => x.id === it.id); if (i >= 0) items[i] = it; else items.push(it); save(it); n++; } }
+      let n = 0; for (const it of arr) { if (it && it.id && (it.kind === 'trip' || it.kind === 'spot' || (it.kind === 'meta' && it.id === 'hero'))) { const i = items.findIndex(x => x.id === it.id); if (i >= 0) items[i] = it; else items.push(it); save(it); n++; } }
       closeOv(); renderAll(); toast('Επαναφέρθηκαν ' + n + ' στοιχεία');
     } catch(_){ toast('Το αρχείο δεν είναι έγκυρο αντίγραφο'); }
   };
@@ -643,6 +649,19 @@ async function send(text){
   }
   busy = false; $('#chatSend').disabled = false;
 }
+
+/* ---------- hero art ---------- */
+(function buildHero(){
+  let s = 11; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  let st = ''; for (let i = 0; i < 70; i++) st += `<circle cx="${(rnd() * 1200).toFixed(0)}" cy="${(rnd() * 300).toFixed(0)}" r="${(.4 + rnd() * 1.1).toFixed(1)}" fill="#fff" opacity="${(.25 + rnd() * .6).toFixed(2)}"/>`;
+  $('#stars').innerHTML = st;
+  const blades = (id, n, y0, yv, hmin, hmax, cols) => { let out = '';
+    for (let i = 0; i < n; i++) { const x = rnd() * 1260 - 30, b = y0 + rnd() * yv, h = hmin + rnd() * (hmax - hmin), dx = (rnd() - .5) * 28, c = cols[(rnd() * cols.length) | 0];
+      out += `<path d="M${x.toFixed(1)} ${b.toFixed(1)} Q${(x + dx * .3).toFixed(1)} ${(b - h * .6).toFixed(1)} ${(x + dx).toFixed(1)} ${(b - h).toFixed(1)}" stroke="${c}" stroke-width="${(.8 + rnd() * 1.4).toFixed(1)}" stroke-linecap="round" fill="none" opacity="${(.5 + rnd() * .5).toFixed(2)}"/>`; }
+    $(id).innerHTML = out; };
+  blades('#bladesBack', 520, 560, 50, 26, 70, ['#ffd18a', '#f0a24e', '#d98332', '#ffe0a8']);
+  blades('#bladesFront', 620, 640, 120, 40, 110, ['#ffcf7a', '#f29a3d', '#c9701f', '#ffe6b0', '#a8541a']);
+})();
 
 /* ---------- boot ---------- */
 measure(); applyView(); observe();

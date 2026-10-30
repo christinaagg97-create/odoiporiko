@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Οδοιπορικό</title>
+<title>World Travel</title>
 <meta name="theme-color" content="#17263F">
-<meta name="description" content="Προσωπικό ταξιδιωτικό οδοιπορικό: χάρτης, ημερολόγιο, εμπειρίες και καρτ ποστάλ.">
+<meta name="description" content="Προσωπικό ταξιδιωτικό ημερολόγιο: χάρτης, ημερολόγιο, εμπειρίες και καρτ ποστάλ.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Οδοιπορικό">
+<meta name="apple-mobile-web-app-title" content="World Travel">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,8 +22,8 @@
 <div lang="el">
 <header class="nav">
   <div class="nav-in">
-    <a class="logo" href="#top" aria-label="Οδοιπορικό, αρχή σελίδας">
-      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 12 L23 3 L15 23 L12 15 Z" fill="currentColor"/></svg>Οδοιπορικό
+    <a class="logo" href="#top" aria-label="World Travel, αρχή σελίδας">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 12 L23 3 L15 23 L12 15 Z" fill="currentColor"/></svg>World Travel
     </a>
     <nav class="links" aria-label="Ενότητες">
       <button type="button" data-act="go" data-to="map">Χάρτης</button>
@@ -40,19 +40,43 @@
   <div class="hero-bg" id="heroBg"></div>
   <svg class="hills" viewBox="0 0 1200 760" preserveAspectRatio="xMidYMax slice" aria-hidden="true" id="hills">
     <defs>
-      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#15263f"/><stop offset=".55" stop-color="#2b4a73"/><stop offset="1" stop-color="#d9824f"/></linearGradient>
-      <linearGradient id="h1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e49a54"/><stop offset="1" stop-color="#b35a2a"/></linearGradient>
-      <linearGradient id="h2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8742f"/><stop offset="1" stop-color="#7d3a1b"/></linearGradient>
-      <pattern id="grass" width="7" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(8)"><path d="M1 22 L3 2 M5 22 L5.5 8" stroke="rgba(255,214,150,.38)" stroke-width="1" fill="none"/></pattern>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1630"/><stop offset=".42" stop-color="#1b3860"/><stop offset=".72" stop-color="#52698a"/><stop offset="1" stop-color="#e8975b"/></linearGradient>
+      <radialGradient id="glow" cx="72%" cy="62%" r="50%"><stop offset="0" stop-color="#ffd59a" stop-opacity=".8"/><stop offset=".45" stop-color="#f08f4f" stop-opacity=".28"/><stop offset="1" stop-color="#f08f4f" stop-opacity="0"/></radialGradient>
+      <linearGradient id="hillA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2a652"/><stop offset=".45" stop-color="#c9702e"/><stop offset="1" stop-color="#6e3315"/></linearGradient>
+      <linearGradient id="hillB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9611f"/><stop offset="1" stop-color="#3f1d0c"/></linearGradient>
+      <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#08101f" stop-opacity=".62"/><stop offset=".65" stop-color="#08101f" stop-opacity="0"/></linearGradient>
+      <linearGradient id="haze" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6b57a" stop-opacity="0"/><stop offset="1" stop-color="#f6b57a" stop-opacity=".28"/></linearGradient>
+      <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0"/></filter>
     </defs>
-    <rect class="sky" width="1200" height="760" fill="url(#sky)"/>
-    <circle cx="880" cy="330" r="90" fill="#f4b878" opacity=".55"/>
-    <g data-sp=".10"><path d="M0 430 L160 330 L300 400 L470 290 L640 410 L820 330 L1000 420 L1200 340 V760 H0Z" fill="#1c3153" opacity=".85"/></g>
-    <g data-sp=".22"><path d="M0 520 Q200 440 420 500 T840 480 T1200 470 V760 H0Z" fill="url(#h1)"/><path d="M0 520 Q200 440 420 500 T840 480 T1200 470 V760 H0Z" fill="url(#grass)"/></g>
-    <g data-sp=".36"><path d="M0 610 Q260 540 520 600 T1000 590 T1200 570 V760 H0Z" fill="url(#h2)"/><path d="M0 610 Q260 540 520 600 T1000 590 T1200 570 V760 H0Z" fill="url(#grass)"/></g>
+    <rect width="1200" height="760" fill="url(#sky)"/>
+    <g id="stars"></g>
+    <rect width="1200" height="760" fill="url(#glow)"/>
+    <g data-sp=".06">
+      <path d="M0 470 L110 392 L230 442 L380 330 L520 432 L640 380 L780 452 L930 358 L1080 442 L1200 402 V760 H0Z" fill="#13254a"/>
+      <path d="M0 470 L110 392 L230 442 L380 330 L520 432 L640 380 L780 452 L930 358 L1080 442 L1200 402" fill="none" stroke="#8aa2cc" stroke-opacity=".35" stroke-width="1.6"/>
+      <path d="M0 520 L150 462 L300 506 L470 440 L640 508 L800 462 L980 520 L1200 470 V760 H0Z" fill="#1c3156"/>
+    </g>
+    <g data-sp=".16">
+      <path d="M0 566 C200 506 380 526 560 546 C760 566 960 504 1200 526 V760 H0Z" fill="url(#hillA)"/>
+      <path d="M0 566 C200 506 380 526 560 546 C760 566 960 504 1200 526" fill="none" stroke="#ffd9a0" stroke-opacity=".5" stroke-width="2"/>
+      <g transform="translate(676 398)" fill="#120c0b" style="filter:drop-shadow(3px 0 1.5px rgba(255,185,115,.6))">
+        <circle cx="35" cy="13" r="9"/><path d="M25 11 Q35 -3 45 11Z"/>
+        <path d="M20 27 Q35 21 50 28 L53 76 L45 78 L44 114 L40 152 L30 152 L33 116 L28 152 L17 152 L21 106 L19 76 Z"/>
+        <rect x="23" y="26" width="25" height="46" rx="11"/>
+        <path d="M20 30 L8 72 L14 75 L24 42Z"/><path d="M50 30 L61 70 L55 74 L45 42Z"/>
+      </g>
+    </g>
+    <g data-sp=".26"><g class="sway" id="bladesBack"></g></g>
+    <g data-sp=".38">
+      <path d="M0 650 Q300 604 600 638 T1200 618 V760 H0Z" fill="url(#hillB)"/>
+      <g class="sway s2" id="bladesFront"></g>
+    </g>
+    <rect width="1200" height="760" fill="url(#haze)"/>
+    <rect width="1200" height="760" fill="url(#shade)"/>
+    <rect width="1200" height="760" filter="url(#grain)" opacity=".12"/>
   </svg>
   <div class="inner hero-in">
-    <span class="tag dark rv">Το προσωπικό μου οδοιπορικό</span>
+    <span class="tag dark rv">Το προσωπικό μου ημερολόγιο ταξιδιών</span>
     <h1 class="rv">Κάθε μέρος έχει μια <em class="sc">ιστορία</em></h1>
     <p class="lead rv" id="heroLead"></p>
     <div class="cta-row rv">
@@ -205,7 +229,7 @@
 
 <footer class="foot">
   <div class="inner foot-in">
-    <div><a class="logo" href="#top"><svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 12 L23 3 L15 23 L12 15 Z" fill="currentColor"/></svg>Οδοιπορικό</a>
+    <div><a class="logo" href="#top"><svg width="24" height="24" viewBox="0 0 26 26" aria-hidden="true"><path d="M3 12 L23 3 L15 23 L12 15 Z" fill="currentColor"/></svg>World Travel</a>
       <p style="margin-top:8px">Προσωπικό και ιδιωτικό. Τα δεδομένα μένουν μόνο σε αυτό το κινητό.</p></div>
     <div class="tools"><button class="btn small" type="button" data-act="settings">Ρυθμίσεις και αντίγραφο ασφαλείας</button></div>
   </div>
